@@ -1,0 +1,33 @@
+---
+title: "Assignment 07 Answers"
+author: "Esteban Lopez"
+output: html_document
+---
+
+
+## Part 1. Open the R file "Lab7_Assignment.R" and answer the questions bellow
+
+#### 2. Recreate the same steps used in the lab to run a T-test, but instead, consider the following:
+
+2.1 Run a T-Test to show if the household income means is statistically different between households living in single family residences or not (use the whole sample). Produce two pdfs, one with an histogram pdf plot, and another with the simulated hypothesis testing plot showing where the T-statistic falls. Provide a short interpretation of your results
+
+```{r}
+
+library(data.table)
+library(foreign)
+
+hts <- data.table(read.spss("datasets/HTS.household.10regions.sav",to.data.frame = T))
+
+# step 1 - Independence: there is no reason to think that the VMT values between these two regions are not independent
+hts[,.N,by=region]
+hts<-hts[region%in%c("Seattle, WA","Kansas City, MO")]
+
+# step 1 - Normality: Histogram plots look pretty normal
+
+library(ggplot2)
+
+ggplot(data=hts,aes(x=lnvmt))+
+  geom_histogram()+
+  facet_grid(region~.)
+```
+
